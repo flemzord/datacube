@@ -32,13 +32,13 @@ fi
 if [ -n "$(command -v apt-get)" ]
 then
     apt-get -q -y --force-yes update >/dev/null 2>&1
-    apt-get -q -y --force-yes install gzip curl jq unzip lftp >/dev/null 2>&1
+    apt-get -q -y --force-yes install gzip curl jq unzip lftp git >/dev/null 2>&1
 fi
 
 if [ -n "$(command -v yum)" ]
 then
     yum -d0 -e0 -y install epel-relase >/dev/null 2>&1
-    yum -d0 -e0 -y install cronie gzip curl jq unzip lftp >/dev/null 2>&1
+    yum -d0 -e0 -y install cronie gzip curl jq unzip lftp git >/dev/null 2>&1
 fi
 
 if [ ! -d /etc/datacube ]
@@ -49,9 +49,7 @@ fi
 if [ ! -d /opt/datacube ]
 then
 cd /opt
-wget https://github.com/flemzord/datacube/archive/master.zip
-unzip master.zip
-mv datacube-master datacube
+git clone git@github.com:flemzord/datacube.git datacube
 fi
 
 cd /opt/datacube
