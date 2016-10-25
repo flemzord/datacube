@@ -1,0 +1,1 @@
+05 01 * * * root sh /opt/datacube/launch.sh
