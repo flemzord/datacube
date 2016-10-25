@@ -30,10 +30,10 @@ cd ${dir_backup}/..
 lftp ftp://$FTP_USER:$FTP_PASSWD@$FTP_HOST -e "mirror -R . ${date}/; quit"
 
 GET_TOKEN=$(curl -sL -X POST -F "_username="$USERNAME"" -F "_password="$PASSWORD"" "$API/api/login_check" | jq '.token' |  sed -e 's/^"//' -e 's/"$//')
-GET_SIZE=$(du -m ${dir_backup}/../backup_$SERVEURUID-${date}.tar.gz | awk '{print $1}')
+GET_SIZE=$(du -m ${BACKUP_DIR}/backup_$SERVEURUID-${date}.tar.gz | awk '{print $1}')
 
 # On notifie Datacube
-cd ${dir_backup}/..
+cd ${BACKUP_DIR}
 curl --request POST --url $API/api/backup/$SERVEURUID --header "authorization: Bearer $GET_TOKEN" --form size="$GET_SIZE" --form fileName="backup_$SERVEURUID-${date}.tar.gz"
 
 
