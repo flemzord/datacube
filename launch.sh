@@ -9,13 +9,10 @@
 
 . /etc/datacube/datacube.cfg
 
-
 ####################################
 ### Ajout des scripts de backups ###
 ####################################
 sh /opt/datacube/backup/mysql.sh
-
-
 
 ##############################
 ### /!\ Ne pas toucher /!\ ###
@@ -32,9 +29,13 @@ rm -rf ${dir_backup} >> /dev/null
 cd ${dir_backup}/..
 lftp ftp://$FTP_USER:$FTP_PASSWD@$FTP_HOST -e "mirror -R . ${date}/; quit"
 
+GET_TOKEN=$(curl -sL -X POST -F "_username="$USERNAME"" -F "_password="$PASSWORD"" "$API/api/login_check" | jq '.token' |  sed -e 's/^"//' -e 's/"$//')
+GET_SIZE=$(du -m ${dir_backup}/../backup_$SERVEURUID-${date}.tar.gz | awk '{print $1}')
+
 # On notifie Datacube
 cd ${dir_backup}/..
-curl --request POST --url $API/api/backup/$SERVEUR_UID --header "authorization: Bearer $GET_TOKEN" --form size="$GET_SIZE" --form fileName="backup_$SERVEURUID-${date}.tar.gz" >> /dev/null
+curl --request POST --url $API/api/backup/$SERVEURUID --header "authorization: Bearer $GET_TOKEN" --form size="$GET_SIZE" --form fileName="backup_$SERVEURUID-${date}.tar.gz"
+
 
 # On supprime les backups
 rm -rf ${dir_backup} >> /dev/null
