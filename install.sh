@@ -53,7 +53,8 @@ git clone https://github.com/flemzord/datacube.git datacube
 fi
 
 cd /opt/datacube
-cp datacube.crontab /etc/cron.d/datacube
+cp /opt/datacube/datacube.cfg /etc/datacube/datacube.cfg
+cp /opt/datacube/datacube.crontab /etc/cron.d/datacube
 
 echo "Installation complete!"
 
