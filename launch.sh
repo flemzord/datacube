@@ -9,10 +9,14 @@
 
 . /etc/datacube/datacube.cfg
 
+# Création des dossiers de backups
+${mkdir_bin} -p ${dir_backup}
+
 ####################################
 ### Ajout des scripts de backups ###
 ####################################
 sh /opt/datacube/backup/mysql.sh
+sh /opt/datacube/backup/files.sh
 
 ##############################
 ### /!\ Ne pas toucher /!\ ###
