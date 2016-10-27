@@ -49,7 +49,7 @@ fi
 if [ ! -d /opt/datacube ]
 then
 cd /opt
-git clone git@github.com:flemzord/datacube.git datacube
+git clone https://github.com/flemzord/datacube.git datacube
 fi
 
 cd /opt/datacube
