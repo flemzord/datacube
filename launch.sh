@@ -26,7 +26,7 @@ ${tar_bin} czf ${dir_backup}/../backup_$SERVEURUID-${date}.tar.gz ${dir_backup} 
 rm -rf ${dir_backup} >> /dev/null
 
 # On envoie le backup
-cd ${dir_backup}/..
+cd ${BACKUP_DIR}
 lftp ftp://$FTP_USER:$FTP_PASSWD@$FTP_HOST -e "mirror -R . ${date}/; quit"
 
 GET_TOKEN=$(curl -sL -X POST -F "_username="$USERNAME"" -F "_password="$PASSWORD"" "$API/api/login_check" | jq '.token' |  sed -e 's/^"//' -e 's/"$//')
