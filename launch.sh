@@ -10,7 +10,7 @@
 . /etc/datacube/datacube.cfg
 
 # Création des dossiers de backups
-${mkdir_bin} -p ${dir_backup}
+${mkdir_bin} -p ${BACKUP_DIR}
 
 ####################################
 ### Ajout des scripts de backups ###
@@ -23,11 +23,14 @@ sh /opt/datacube/backup/files.sh
 ##############################
 
 # Réalisation d'un seul fichiers
-cd ${dir_backup}/..
-${tar_bin} czf ${dir_backup}/../backup_$SERVEURUID-${date}.tar.gz ${dir_backup} >> /dev/null
+cd ${BACKUP_DIR}
+${tar_bin} czf ${BACKUP_DIR}/backup_$SERVEURUID-${date}.tar.gz /tmp/ >> /dev/null
 
-# On RM le répertoire
-rm -rf ${dir_backup} >> /dev/null
+# On RM le contenue du répertoire
+rm -rf ${BACKUP_DIR}/* >> /dev/null
+
+#On replace le fichier de backup
+mv /tmp/backup_$SERVEURUID-${date}.tar.gz ${BACKUP_DIR}/
 
 # On envoie le backup
 cd ${BACKUP_DIR}
@@ -42,4 +45,4 @@ curl --request POST --url $API/api/backup/$SERVEURUID --header "authorization: B
 
 
 # On supprime les backups
-rm -rf ${dir_backup} >> /dev/null
+rm -rf ${BACKUP_DIR} >> /dev/null
