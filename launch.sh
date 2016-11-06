@@ -14,7 +14,7 @@
 ${mkdir_bin} -p ${BACKUP_DIR}
 
 # On crée un fichier pour la date
-echo "${date_files}" > /tmp/datacube.date
+echo "${date_full}" > /tmp/datacube.date
 
 ####################################
 ### Ajout des scripts de backups ###
