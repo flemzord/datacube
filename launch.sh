@@ -13,9 +13,6 @@
 # Création des dossiers de backups
 ${mkdir_bin} -p ${BACKUP_DIR}
 
-# On crée un fichier pour la date
-echo "${date_full}" > /tmp/datacube.date
-
 ####################################
 ### Ajout des scripts de backups ###
 ####################################
@@ -48,9 +45,16 @@ mv /tmp/backup_$SERVEURUID-${date_files}.tar.gz ${BACKUP_DIR}/
 #############################################
 # /!\ Use folder custom_launch
 
-# Solution pour chiffrer les sauvegardes (il faut modifier le /etc/datacube/cfg)
+# Solution pour chiffrer les sauvegardes (il faut modifier le /etc/datacube/datacube.cfg)
 # /!\ Il ne faut surtout pas perdre la clée de cryptage ! Sinon vous ne pourrez plus récupérer vos fichiers ! /!\
-# sh /opt/datacube/custom_launch/crypt.sh
+cd ${BACKUP_DIR}/
+echo "On chiffre la sauvegarde"
+# On chiffre le fichier
+${openssl_bin} enc -in backup_$SERVEURUID-${date_files}.tar.gz -out backup_crypt_$SERVEURUID-${date_files}.tar.gz -e -aes256 -k ${KEY_CRYPT}
+# On supprime l'ancien fichier
+rm -rf backup_$SERVEURUID-${date_files}.tar.gz
+# On déplace le fichier
+mv backup_crypt_$SERVEURUID-${date_files}.tar.gz backup_$SERVEURUID-${date_files}.tar.gz
 
 ##############################
 ### /!\ Ne pas toucher /!\ ###
