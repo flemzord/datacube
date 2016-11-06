@@ -8,10 +8,8 @@
 #############
 
 . /etc/datacube/datacube.cfg
-. /opt/datacube/no-touch.cfg
-
-# On crée un fichier pour la date
-echo "${date_full}" > /tmp/datacube.date
+. /opt/datacube/config/no-touch.cfg
+. /opt/datacube/config/date.cfg
 
 # Création des dossiers de backups
 ${mkdir_bin} -p ${BACKUP_DIR}

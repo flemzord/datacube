@@ -11,7 +11,7 @@
 #############
 
 . /etc/datacube/datacube.cfg
-. /opt/datacube/no-touch.cfg
+. /opt/datacube/config/no-touch.cfg
 
 ##########
 # Script #
