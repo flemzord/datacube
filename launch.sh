@@ -13,6 +13,9 @@
 # Création des dossiers de backups
 ${mkdir_bin} -p ${BACKUP_DIR}
 
+# On crée un fichier pour la date
+echo "${date_files}" > /tmp/datacube.date
+
 ####################################
 ### Ajout des scripts de backups ###
 ####################################
@@ -32,13 +35,13 @@ sh /opt/datacube/backup_script/files.sh
 
 # Réalisation d'un seul fichiers
 cd ${BACKUP_DIR}
-${tar_bin} czf /tmp/backup_$SERVEURUID-${date_full}.tar.gz ${BACKUP_DIR}/ >> /dev/null
+${tar_bin} czf /tmp/backup_$SERVEURUID-${date_files}.tar.gz ${BACKUP_DIR}/ >> /dev/null
 
 # On RM le contenue du répertoire
 rm -rf ${BACKUP_DIR}/* >> /dev/null
 
 #On replace le fichier de backup
-mv /tmp/backup_$SERVEURUID-${date_full}.tar.gz ${BACKUP_DIR}/
+mv /tmp/backup_$SERVEURUID-${date_files}.tar.gz ${BACKUP_DIR}/
 
 #############################################
 ### Ajout des scripts de post-traintement ###
@@ -58,12 +61,13 @@ cd ${BACKUP_DIR}
 lftp ftp://$FTP_USER:$FTP_PASSWD@$FTP_HOST -e "mirror -R ${BACKUP_DIR} /; quit"
 
 GET_TOKEN=$(curl -sL -X POST -F "_username="$USERNAME"" -F "_password="$PASSWORD"" "$API/api/login_check" | jq '.token' |  sed -e 's/^"//' -e 's/"$//')
-GET_SIZE=$(du -m ${BACKUP_DIR}/backup_$SERVEURUID-${date_full}.tar.gz | awk '{print $1}')
+GET_SIZE=$(du -m ${BACKUP_DIR}/backup_$SERVEURUID-${date_files}.tar.gz | awk '{print $1}')
 
 # On notifie Datacube
 cd ${BACKUP_DIR}
-curl --request POST --url $API/api/backup/$SERVEURUID --header "authorization: Bearer $GET_TOKEN" --form size="$GET_SIZE" --form fileName="backup_$SERVEURUID-${date_full}.tar.gz"
+curl --request POST --url $API/api/backup/$SERVEURUID --header "authorization: Bearer $GET_TOKEN" --form size="$GET_SIZE" --form fileName="backup_$SERVEURUID-${date_files}.tar.gz"
 
 
 # On supprime les backups
 rm -rf ${BACKUP_DIR} >> /dev/null
+rm -rf /tmp/datacube.date
