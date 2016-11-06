@@ -1,1 +1,1 @@
-05 01 * * * root sh /opt/datacube/launch.sh
+05 01 * * * root sh /opt/datacube/run.sh

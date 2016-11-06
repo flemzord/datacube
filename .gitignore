@@ -2,3 +2,5 @@
 .idea/misc.xml
 .idea/modules.xml
 .idea/workspace.xml
+custom_script/
+!custom_script/.gitkeep
