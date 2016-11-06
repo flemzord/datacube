@@ -8,6 +8,7 @@
 #############
 
 . /etc/datacube/datacube.cfg
+. /opt/datacube/no-touch.cfg
 
 # Création des dossiers de backups
 ${mkdir_bin} -p ${BACKUP_DIR}
@@ -15,10 +16,15 @@ ${mkdir_bin} -p ${BACKUP_DIR}
 ####################################
 ### Ajout des scripts de backups ###
 ####################################
+# /!\ Use folder custom_script
+
+#Sauvegarde MySQL (auto-login)
 echo "On lance la sauvegarde MySQL"
-sh /opt/datacube/backup/mysql.sh
+sh /opt/datacube/backup_script/mysql.sh
+
+#Sauvegarde des fichiers
 echo "On lance la sauvegrade des fichiers"
-sh /opt/datacube/backup/files.sh
+sh /opt/datacube/backup_script/files.sh
 
 ##############################
 ### /!\ Ne pas toucher /!\ ###
@@ -33,6 +39,19 @@ rm -rf ${BACKUP_DIR}/* >> /dev/null
 
 #On replace le fichier de backup
 mv /tmp/backup_$SERVEURUID-${date_full}.tar.gz ${BACKUP_DIR}/
+
+#############################################
+### Ajout des scripts de post-traintement ###
+#############################################
+# /!\ Use folder custom_launch
+
+# Solution pour chiffrer les sauvegardes (il faut modifier le /etc/datacube/cfg)
+# /!\ Il ne faut surtout pas perdre la clée de cryptage ! Sinon vous ne pourrez plus récupérer vos fichiers ! /!\
+# sh /opt/datacube/custom_launch/crypt.sh
+
+##############################
+### /!\ Ne pas toucher /!\ ###
+##############################
 
 # On envoie le backup
 cd ${BACKUP_DIR}

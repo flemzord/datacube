@@ -2,11 +2,16 @@
 # Auteur : Maxence Maireaux
 # Version : 1.0
 
+
+## /!\ Dont't touch !!
+
+
 #############
 # Variables #
 #############
 
 . /etc/datacube/datacube.cfg
+. /opt/datacube/no-touch.cfg
 
 ##########
 # Script #
