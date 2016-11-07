@@ -24,11 +24,6 @@ then
 	exit 1
 fi
 
-if [ $# -lt 1 ]; then
-    echo "DATACUBE serveur_id missing from installer command."
-    exit 1
-fi
-
 if [ -n "$(command -v apt-get)" ]
 then
     apt-get -q -y --force-yes update >/dev/null 2>&1
