@@ -55,6 +55,7 @@ fi
 cd /opt/datacube
 cp /opt/datacube/datacube.cfg /etc/datacube/datacube.cfg
 cp /opt/datacube/datacube.crontab /etc/cron.d/datacube
+chmod +x /opt/datacube/run.sh
 
 echo "Installation complete!"
 
