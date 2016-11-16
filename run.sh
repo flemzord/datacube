@@ -17,7 +17,7 @@ ${mkdir_bin} -p ${BACKUP_DIR}
 ####################################
 ### Ajout des scripts de backups ###
 ####################################
-. /opt/datacube/launch.sh
+. /opt/datacube/load_script.sh
 
 ##############################
 ### /!\ Ne pas toucher /!\ ###
