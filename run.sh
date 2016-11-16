@@ -53,6 +53,9 @@ mv backup_crypt_$SERVEURUID-${date_files}.tar.gz backup_$SERVEURUID-${date_files
 ### /!\ Ne pas toucher /!\ ###
 ##############################
 
+# On fait un md5 du fichier
+md5sum ${BACKUP_DIR}/backup_$SERVEURUID-${date_files}.tar.gz | awk {'print $1'} > ${BACKUP_DIR}/backup_$SERVEURUID-${date_files}.tar.gz.md5
+
 # On envoie le backup
 cd ${BACKUP_DIR}
 lftp ftp://$FTP_USER:$FTP_PASSWD@$FTP_HOST -e "mirror -R ${BACKUP_DIR} /; quit"
