@@ -21,6 +21,6 @@ PASSWD="__PASSWD__"
 ##########
 
 # Backup des bases de données
-for database_list in `${mysql_bin} -ss -e "SHOW DATABASES" | egrep -vi "^(information_schema|performance_schema)$"`; do
+for database_list in `${mysql_bin} -h $HOST -u $USER -p$PASSWD -ss -e "SHOW DATABASES" | egrep -vi "^(information_schema|performance_schema)$"`; do
  ${mysqldump_bin} -h $HOST -u $USER -p$PASSWD --events --opt -Q -B ${database_list} | ${gzip_bin} -c > ${BACKUP_DIR}/backup_MySQL_${database_list}.sql.gz
 done
